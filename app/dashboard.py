@@ -4,12 +4,11 @@ import plotly.express as px
 
 # === CONFIGURATION ===
 st.set_page_config(
-    page_title="DataPulse 🎵",
-    page_icon="🎵",
+    page_title="DataPulse",
     layout="wide"
 )
 
-# === CHARGEMENT DES DONNÉES ===
+# === CHARGEMENT DES DONNEES ===
 @st.cache_data
 def load_data():
     df = pd.read_csv('data/clean/spotify_clean.csv')
@@ -17,22 +16,22 @@ def load_data():
 
 df = load_data()
 
-# === EN-TÊTE ===
-st.title("🎵 DataPulse — Analyse Spotify")
+# === EN-TETE ===
+st.title("DataPulse — Analyse Spotify")
 st.markdown("Exploration interactive des tendances musicales · 89 740 morceaux")
 st.divider()
 
-# === MÉTRIQUES ===
+# === METRIQUES ===
 col1, col2, col3, col4 = st.columns(4)
-col1.metric("🎵 Morceaux", f"{len(df):,}")
-col2.metric("🎤 Artistes", f"{df['artists'].nunique():,}")
-col3.metric("🎸 Genres", df['track_genre'].nunique())
-col4.metric("⭐ Popularité moy.", f"{df['popularity'].mean():.1f}/100")
+col1.metric("Morceaux", f"{len(df):,}")
+col2.metric("Artistes", f"{df['artists'].nunique():,}")
+col3.metric("Genres", df['track_genre'].nunique())
+col4.metric("Popularite moyenne", f"{df['popularity'].mean():.1f}/100")
 
 st.divider()
 
 # === SIDEBAR FILTRES ===
-st.sidebar.header("🎛️ Filtres")
+st.sidebar.header("Filtres")
 
 genres = st.sidebar.multiselect(
     "Genres",
@@ -41,11 +40,11 @@ genres = st.sidebar.multiselect(
 )
 
 popularity_range = st.sidebar.slider(
-    "Popularité", 0, 100, (0, 100)
+    "Popularite", 0, 100, (0, 100)
 )
 
 energy_range = st.sidebar.slider(
-    "Énergie", 0.0, 1.0, (0.0, 1.0)
+    "Energie", 0.0, 1.0, (0.0, 1.0)
 )
 
 # Appliquer les filtres
@@ -58,10 +57,10 @@ df_f = df[
 if genres:
     df_f = df_f[df_f['track_genre'].isin(genres)]
 
-st.sidebar.info(f"📊 {len(df_f):,} morceaux affichés")
+st.sidebar.info(f"{len(df_f):,} morceaux affiches")
 
 # === GRAPHIQUE 1 : Top 10 genres ===
-st.subheader("🏆 Top 10 genres les plus populaires")
+st.subheader("Top 10 genres les plus populaires")
 top_genres = (df_f.groupby('track_genre')['popularity']
               .mean().nlargest(10).reset_index()
               .sort_values('popularity'))
@@ -70,8 +69,8 @@ fig1 = px.bar(top_genres, x='popularity', y='track_genre',
               color_continuous_scale='Viridis')
 st.plotly_chart(fig1, use_container_width=True)
 
-# === GRAPHIQUE 2 : Énergie vs Popularité ===
-st.subheader("⚡ Énergie vs Popularité")
+# === GRAPHIQUE 2 : Energie vs Popularite ===
+st.subheader("Energie vs Popularite")
 fig2 = px.scatter(
     df_f.sample(min(3000, len(df_f))),
     x='energy', y='popularity',
@@ -82,7 +81,7 @@ fig2 = px.scatter(
 st.plotly_chart(fig2, use_container_width=True)
 
 # === GRAPHIQUE 3 : Danceability vs Valence ===
-st.subheader("💃 Danceability vs Valence")
+st.subheader("Danceability vs Valence")
 fig3 = px.scatter(
     df_f.sample(min(3000, len(df_f))),
     x='danceability', y='valence',
@@ -93,7 +92,7 @@ fig3 = px.scatter(
 st.plotly_chart(fig3, use_container_width=True)
 
 # === TABLEAU ===
-with st.expander("📋 Voir les données"):
+with st.expander("Voir les donnees"):
     st.dataframe(
         df_f[['track_name', 'artists', 'track_genre',
               'popularity', 'energy', 'danceability', 'valence']]
