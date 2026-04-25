@@ -40,4 +40,4 @@ Python - pandas - matplotlib - seaborn - plotly - streamlit - scikit-learn
 
 ## Auteure
 
-Malika Nouranelee - Projet Data Science 3e annee - Avril 2026
+Malika Mouliom - Projet Data Science 3e annee - Avril 2026
